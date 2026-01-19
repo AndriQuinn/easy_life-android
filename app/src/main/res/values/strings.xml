@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Task List</string>
+    <string name="no_ongoing_tasks_txt">No ongoing tasks</string>
+    <string name="tasks_txt">Tasks</string>
+    <string name="logo_image_desc_txt">logo image</string>
+    <string name="tasklist_header_txt">TaskList</string>
+    <string name="add_icon_desc_txt">add icon</string>
+    <string name="status_txt">Status:</string>
+    <string name="new_task_header_txt">New task</string>
+    <string name="title_txt">Title</string>
+    <string name="pick_a_deadline_txt">Pick a deadline</string>
+    <string name="description_txt">Description</string>
+    <string name="back_icon_desc_txt">back icon</string>
+    <string name="add_button_rxr">Add</string>
+    <string name="done_button_txt">Done</string>
+    <string name="description_header_txt">Description</string>
+    <string name="blank_txt" />
+</resources>
