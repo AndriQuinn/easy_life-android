@@ -42,7 +42,7 @@ fun addTaskFile(context: Context, taskTitle: String, taskDeadline: String, taskD
     taskObject.put("deadline", taskDeadline)
     taskObject.put("description", taskDescription)
     taskObject.put("status", "ONGOING")
-    taskObject.put("id", "$length") // Assign the id as the current length
+    taskObject.put("id", length) // Assign the id as the current length
 
     fileContent.put(taskObject) // put the task object to the json array
     fileContent.getJSONObject(0).put("length","$length") // Update the length on the file
@@ -73,6 +73,22 @@ fun markTaskDone(id: Int,context: Context) {
                 filePath.writeText(file.toString())
                 break
             }
+        }
+    }
+}
+
+fun deleteTask(
+    context: Context,
+    id: Int
+) {
+    val filePath = File(context.filesDir,"task-list.json")
+    val fileContent = JSONArray(filePath.readText())
+
+    for (i in fileContent.length() - 1 downTo 1) {
+        val task = fileContent.getJSONObject(i)
+        if (task.getInt("id") == id) {
+            fileContent.remove(i)
+            break
         }
     }
 }
