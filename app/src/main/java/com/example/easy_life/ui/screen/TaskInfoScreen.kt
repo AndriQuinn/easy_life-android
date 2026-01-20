@@ -48,6 +48,7 @@ import com.example.easy_life.functions.markTaskDone
 import com.example.easy_life.functions.toMonthName
 import com.example.easy_life.ui.components.StatusIndicator
 import com.example.easy_life.ui.model.StatusType
+import com.example.easy_life.functions.deleteTask
 
 @Composable
 fun TaskInfoScreen(
@@ -146,7 +147,15 @@ fun TaskInfoBody(
                     context = context
                 )
                 navController.popBackStack()
-            }
+            },
+            deleteTask = {
+                deleteTask(
+                    id = taskNode.id,
+                    context = context
+                )
+                navController.popBackStack()
+            },
+
         )
     }
 }
@@ -226,6 +235,7 @@ fun DescriptionBox(
 fun BottomButtons(
     taskNode: TaskNode,
     markDone: () -> Unit,
+    deleteTask: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -239,7 +249,7 @@ fun BottomButtons(
             .fillMaxWidth()
     ) {
         Button (
-            onClick = {},
+            onClick = { deleteTask() },
             colors = buttonColors(
                 contentColor = Color(0xFFC93334),
                 containerColor = Color(0xFFC93334),
