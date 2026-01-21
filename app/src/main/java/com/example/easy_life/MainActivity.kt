@@ -21,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.easy_life.data.model.TaskNode
 import com.example.easy_life.ui.screen.AddTaskScreen
+import com.example.easy_life.ui.screen.EditTaskScreen
 import com.example.easy_life.ui.screen.home.HomeScreen
 import com.example.easy_life.ui.screen.TaskInfoScreen
 import com.example.easy_life.ui.theme.TaskListTheme
@@ -79,6 +80,19 @@ fun TaskListApp(modifier: Modifier = Modifier) {
             val taskData = Json.decodeFromString<TaskNode>(taskUriDecoded)
 
             TaskInfoScreen(
+                taskNode = taskData,
+                navController = navController
+            )
+        }
+        composable(
+            route = "editTaskScreen/{taskData}",
+            arguments = listOf(navArgument("taskData") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val taskUri = backStackEntry.arguments?.getString("taskData")
+            val taskUriDecoded = Uri.decode(taskUri.toString())
+            val taskData = Json.decodeFromString<TaskNode>(taskUriDecoded)
+
+            EditTaskScreen(
                 taskNode = taskData,
                 navController = navController
             )

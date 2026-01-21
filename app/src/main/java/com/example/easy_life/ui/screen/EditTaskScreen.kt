@@ -271,17 +271,10 @@ fun EditTaskInfoBody(
     }
 }
 
-
-
 @Preview(
     showBackground = true,
     showSystemUi = true,
-    name = "Add task screen"
-)
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-    name = "Add task screen"
+    name = "Edit task screen"
 )
 @Composable
 fun EditTaskScreenPreview() {

@@ -23,7 +23,12 @@ fun toMonthName(month: String): String  = when (month.toInt()) {
     else ->  ""
 }
 
-fun addTaskFile(context: Context, taskTitle: String, taskDeadline: String, taskDescription: String) {
+fun addTaskFile(
+    context: Context,
+    taskTitle: String,
+    taskDeadline: String,
+    taskDescription: String
+) {
 
     val filePath = File(context.filesDir,"task-list.json") // Get the file path
 
@@ -88,6 +93,32 @@ fun deleteTask(
         val task = fileContent.getJSONObject(i)
         if (task.getInt("id") == id.toInt()) {
             fileContent.remove(i)
+            break
+        }
+    }
+    filePath.writeText(fileContent.toString())
+}
+
+fun updateEditedTask(
+    context: Context,
+    taskTitle: String,
+    taskDeadline: String,
+    taskDescription: String,
+    id: String
+) {
+    val filePath = File(context.filesDir,"task-list.json")
+
+    val fileContent = JSONArray(filePath.readText()) // place the file content in the variable
+
+    val taskObject = JSONObject() // Create json object to hold the task data e.g. title
+    taskObject.put("title", taskTitle)
+    taskObject.put("deadline", taskDeadline)
+    taskObject.put("description", taskDescription)
+
+    for (i in fileContent.length() - 1 downTo 1) {
+        val task = fileContent.getJSONObject(i)
+        if (task.getInt("id") == id.toInt()) {
+            fileContent.put(i,taskObject)
             break
         }
     }

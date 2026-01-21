@@ -1,6 +1,7 @@
 package com.example.easy_life.ui.screen
 
 import android.content.Context
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -49,6 +50,8 @@ import com.example.easy_life.functions.toMonthName
 import com.example.easy_life.ui.components.StatusIndicator
 import com.example.easy_life.ui.model.StatusType
 import com.example.easy_life.functions.deleteTask
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @Composable
 fun TaskInfoScreen(
@@ -155,7 +158,9 @@ fun TaskInfoBody(
                 )
                 navController.popBackStack()
             },
-
+            toEditTaskScreen = { taskData ->
+                navController.navigate("editTaskScreen/${taskData}")
+            }
         )
     }
 }
@@ -233,6 +238,7 @@ fun DescriptionBox(
 // Contains delete, done, edit
 @Composable
 fun BottomButtons(
+    toEditTaskScreen: (String) -> Unit,
     taskNode: TaskNode,
     markDone: () -> Unit,
     deleteTask: () -> Unit,
@@ -294,7 +300,12 @@ fun BottomButtons(
         }
 
         Button (
-            onClick = {},
+            onClick = {
+                if (!clickOnce) {return@Button}
+                clickOnce = false
+                val taskData = Uri.encode(Json.encodeToString(taskNode))
+                toEditTaskScreen(taskData) // Function to go to TaskInfoScreen
+            },
             colors = buttonColors(
                 contentColor = Color(0xFF347AA5),
                 containerColor = Color(0xFF347AA5),
