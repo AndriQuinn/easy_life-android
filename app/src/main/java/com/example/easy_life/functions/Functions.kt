@@ -29,7 +29,6 @@ fun addTaskFile(
     taskDeadline: String,
     taskDescription: String
 ) {
-
     val filePath = File(context.filesDir,"task-list.json") // Get the file path
 
     // Checks if the file exist in the path, if not create one
@@ -39,10 +38,12 @@ fun addTaskFile(
         file.put(lengthObj)
         filePath.writeText(file.toString())
     }
+
     val fileContent = JSONArray(filePath.readText()) // place the file content in the variable
     var length = fileContent.getJSONObject(0).getInt("length") // Get the value of length
     length++ // Iterate length
     val taskObject = JSONObject() // Create json object to hold the task data e.g. title
+
     taskObject.put("title", taskTitle)
     taskObject.put("deadline", taskDeadline)
     taskObject.put("description", taskDescription)
@@ -107,10 +108,9 @@ fun saveEditedTask(
     taskNode: TaskNode
 ) {
     val filePath = File(context.filesDir,"task-list.json")
-
     val fileContent = JSONArray(filePath.readText()) // place the file content in the variable
-
     val taskObject = JSONObject() // Create json object to hold the task data e.g. title
+
     taskObject.put("title", taskTitle)
     taskObject.put("deadline", taskDeadline)
     taskObject.put("description", taskDescription)

@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -45,11 +44,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.easy_life.R
 import com.example.easy_life.data.model.TaskNode
+import com.example.easy_life.functions.deleteTask
 import com.example.easy_life.functions.markTaskDone
 import com.example.easy_life.functions.toMonthName
 import com.example.easy_life.ui.components.StatusIndicator
 import com.example.easy_life.ui.model.StatusType
-import com.example.easy_life.functions.deleteTask
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -57,7 +56,6 @@ import kotlinx.serialization.json.Json
 fun TaskInfoScreen(
     taskNode: TaskNode,
     navController: NavController,
-    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
 
@@ -169,7 +167,6 @@ fun TaskInfoBody(
 @Composable
 fun Header(
     taskNode: TaskNode,
-    modifier: Modifier = Modifier
 ) {
     Row (
         verticalAlignment = Alignment.CenterVertically,
@@ -214,7 +211,6 @@ fun Header(
 @Composable
 fun DescriptionBox(
     taskNode: TaskNode,
-    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = Modifier.padding(15.dp)
@@ -244,7 +240,6 @@ fun BottomButtons(
     deleteTask: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     var clickOnce by remember { mutableStateOf(true) }
 
     Row (
@@ -254,6 +249,7 @@ fun BottomButtons(
             .padding(horizontal = 10.dp)
             .fillMaxWidth()
     ) {
+        // Delete Button
         Button (
             onClick = { deleteTask() },
             colors = buttonColors(
@@ -262,16 +258,17 @@ fun BottomButtons(
                 disabledContainerColor = Color.Transparent,
                 disabledContentColor = Color.Transparent
             ),
-            contentPadding = PaddingValues(5.dp)
+            contentPadding = PaddingValues(10.dp)
         ) {
             Text(
-                text = "DELETE",
+                text = stringResource(R.string.delete_button_txt),
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
             )
         }
 
+        // Done Button
         Button(
             onClick = {
                 if (!clickOnce) {return@Button}
@@ -285,7 +282,7 @@ fun BottomButtons(
                 disabledContentColor = Color.Transparent
             ),
             enabled = taskNode.status == "ONGOING" && clickOnce,
-            contentPadding = PaddingValues(5.dp)
+            contentPadding = PaddingValues(10.dp)
         ) {
             // Back icon
             Text (
@@ -299,6 +296,7 @@ fun BottomButtons(
             )
         }
 
+        // Edit Button
         Button (
             onClick = {
                 if (!clickOnce) {return@Button}
@@ -315,15 +313,13 @@ fun BottomButtons(
             contentPadding = PaddingValues(10.dp)
         ) {
             Text(
-                text = "EDIT",
+                text = stringResource(R.string.edit_button_txt),
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
             )
         }
-
     }
-
 }
 
 @Preview(

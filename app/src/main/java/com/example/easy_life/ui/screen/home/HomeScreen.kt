@@ -9,16 +9,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -26,6 +22,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -62,15 +59,12 @@ import kotlinx.serialization.json.Json
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import androidx.compose.material3.Surface
 
 @Composable
 fun HomeScreen (
     navController: NavController,
-    modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel = HomeViewModel()
 ) {
-
     // Formatter - e.g. Sat/08/10/2025
     val formatter = SimpleDateFormat("E/MM/dd/yyyy", Locale.getDefault())
     // Gets current date using the declared formatter
@@ -154,7 +148,6 @@ fun NavBar(
                 contentDescription = stringResource(R.string.logo_image_desc_txt),
                 modifier = Modifier.size(50.dp)
             )
-//            Spacer(Modifier.width(2.dp))
             Text (
                 text = stringResource(R.string.tasklist_header_txt),
                 color = Color.White
@@ -222,7 +215,6 @@ fun TaskLists(
     listOfTask: List<TaskNode>,
     modifier: Modifier = Modifier
 ) {
-
     var delay by remember { mutableLongStateOf(200) }
 
     Column (

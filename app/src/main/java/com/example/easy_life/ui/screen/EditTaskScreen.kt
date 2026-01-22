@@ -40,13 +40,11 @@ import com.example.easy_life.R
 import com.example.easy_life.data.model.TaskNode
 import com.example.easy_life.functions.saveEditedTask
 import com.example.easy_life.functions.toMonthName
-import java.util.Calendar
 
 @Composable
 fun EditTaskScreen(
     taskNode: TaskNode,
     navController: NavController,
-    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     var checkFields by remember {mutableStateOf(false)}
@@ -100,8 +98,10 @@ fun EditTaskNavBar(
             .padding(horizontal = 15.dp)
             .fillMaxWidth()
     ) {
+
+        // Cancel Button
         Button(
-            onClick = {navController.popBackStack()},
+            onClick = { navController.popBackStack() },
             colors = buttonColors(
                 contentColor = Color.Transparent,
                 containerColor = Color.Transparent,
@@ -110,12 +110,14 @@ fun EditTaskNavBar(
             )
         ) {
             Text (
-                text = "CANCEL",
+                text = stringResource(R.string.cancel_txt),
                 color = Color(0xFFED4845),
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
             )
         }
+
+        // Save Button
         Button(
             onClick = { saveEditedTask() },
             colors = buttonColors(
@@ -126,7 +128,7 @@ fun EditTaskNavBar(
             )
         ) {
             Text (
-                text = "SAVE",
+                text = stringResource(R.string.save_txt),
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
                 color = Color.White
@@ -134,7 +136,6 @@ fun EditTaskNavBar(
         }
     }
 }
-
 
 @Composable
 fun EditTaskInfoBody(
@@ -150,13 +151,11 @@ fun EditTaskInfoBody(
     val extractDateDeadline = taskNode.deadline.split("/")
     val context = LocalContext.current // Get app context
     val year = extractDateDeadline[2].toInt() // Set default year
-    val month = extractDateDeadline[0].toInt() // Set default month
+    val month = extractDateDeadline[0].toInt()-1 // Set default month
     val day = extractDateDeadline[1].toInt() // Set default day
-
 
     // Holds the selected date as state
     var selectedDate by remember { mutableStateOf(taskNode.deadline) }
-
 
     // Date picker
     val datePickerDialog = remember {
@@ -174,8 +173,6 @@ fun EditTaskInfoBody(
     }
 
     // Header
-
-
     // Screen container, vertically placed
     // Container for task info, vertically placed
     Column (
@@ -187,9 +184,8 @@ fun EditTaskInfoBody(
             )
             .fillMaxSize()
     ) {
-
         Text(
-            text = "Edit Task",
+            text = stringResource(R.string.edit_task_txt),
             color = Color.White,
             fontSize = 25.sp,
             modifier = Modifier
@@ -199,7 +195,7 @@ fun EditTaskInfoBody(
         Spacer(Modifier.height(10.dp))
         TextField(
             value = title,
-            onValueChange = {setTitleFunction(it)}, // Return the value to parent
+            onValueChange = { setTitleFunction(it) }, // Return the value to parent
             label = {Text(stringResource(R.string.title_txt))},
             singleLine = true,
             colors = TextFieldDefaults.colors(

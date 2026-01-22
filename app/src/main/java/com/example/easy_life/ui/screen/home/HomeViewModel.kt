@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import com.example.easy_life.data.model.TaskNode
+import kotlinx.serialization.json.Json
 import org.json.JSONArray
 import java.io.File
-import kotlinx.serialization.json.Json
 
 class HomeViewModel : ViewModel() {
     private val _taskList = mutableStateListOf<TaskNode>()

@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.easy_life.functions.toMonthName
@@ -140,14 +139,4 @@ fun StatusIndicator(
             color = Color.White
         )
     }
-}
-
-@Preview
-@Composable
-fun StatusIndicatorPreview(modifier: Modifier = Modifier) {
-    StatusIndicatorBar(
-        workOngoing = 0,
-        workDone = 0,
-        workNotDone = 0
-    )
 }

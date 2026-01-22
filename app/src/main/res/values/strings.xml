@@ -15,4 +15,9 @@
     <string name="done_button_txt">DONE</string>
     <string name="description_header_txt">Description</string>
     <string name="blank_txt" />
+    <string name="edit_task_txt">Edit Task</string>
+    <string name="save_txt">SAVE</string>
+    <string name="cancel_txt">CANCEL</string>
+    <string name="delete_button_txt">DELETE</string>
+    <string name="edit_button_txt">EDIT</string>
 </resources>
