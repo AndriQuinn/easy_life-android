@@ -42,12 +42,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.easy_life.R
+import com.example.easy_life.data.local.Theme
 import com.example.easy_life.data.model.TaskNode
 import com.example.easy_life.functions.saveEditedTask
 import com.example.easy_life.functions.toMonthName
 
 @Composable
 fun EditTaskScreen(
+    theme: Theme = Theme.LIGHTTHEME,
     taskNode: TaskNode,
     navController: NavController,
 ) {
@@ -61,11 +63,13 @@ fun EditTaskScreen(
         modifier = Modifier.statusBarsPadding(),
         topBar = {
             EditTaskNavBar(
+                theme = theme,
                 navController = navController,
             )
         }
     ) { innerPadding ->
         EditTaskInfoBody(
+            theme = theme,
             modifier = Modifier.padding(innerPadding),
             taskNode = taskNode,
             title = taskTitle, // Pass the state
@@ -92,6 +96,7 @@ fun EditTaskScreen(
 
 @Composable
 fun EditTaskNavBar(
+    theme: Theme,
     navController: NavController,
     modifier: Modifier = Modifier,
 
@@ -100,7 +105,7 @@ fun EditTaskNavBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .background(Color.White)
+            .background(theme.backgroundColor)
             .padding(horizontal = 15.dp)
             .fillMaxWidth()
     ) {
@@ -123,7 +128,7 @@ fun EditTaskNavBar(
         ) {
             // Back icon
             Image (
-                painter = painterResource(R.drawable.b_back_icon),
+                painter = painterResource(theme.backIcon),
                 contentDescription = stringResource(R.string.back_icon_desc_txt),
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.size(30.dp)
@@ -134,6 +139,7 @@ fun EditTaskNavBar(
 
 @Composable
 fun EditTaskInfoBody(
+    theme: Theme,
     taskNode: TaskNode,
     title: String,
     description: String,
@@ -174,7 +180,7 @@ fun EditTaskInfoBody(
     // Container for task info, vertically placed
     Column (
         modifier = modifier
-            .background(Color.White)
+            .background(theme.backgroundColor)
             .padding(
                 vertical = 60.dp,
                 horizontal = 15.dp
@@ -183,7 +189,7 @@ fun EditTaskInfoBody(
     ) {
         Text(
             text = stringResource(R.string.edit_task_txt),
-            color = Color.Black,
+            color = theme.fontColor,
             fontSize = 35.sp,
             modifier = Modifier
                 .padding(vertical = 30.dp)
@@ -198,8 +204,8 @@ fun EditTaskInfoBody(
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color(0xFFD3D3D3),
                 unfocusedContainerColor = Color(0xFFD3D3D3),
-                unfocusedTextColor = Color.Black,
-                focusedTextColor = Color.Black
+                unfocusedTextColor = theme.fontColor,
+                focusedTextColor = theme.fontColor
             ),
 
             isError = if (checkField) {
@@ -226,7 +232,7 @@ fun EditTaskInfoBody(
                     text = stringResource(R.string.pick_a_deadline_txt),
                     color = if (checkField) {
                         Color(0xFFFFAEB7)
-                    } else {Color.Black},
+                    } else {theme.fontColor},
                     modifier = modifier
                         .padding(start = 10.dp)
                         .fillMaxWidth(),
@@ -237,7 +243,7 @@ fun EditTaskInfoBody(
                 val deadlineDate = selectedDate.split("/")
                 Text(
                     text = "Deadline: ${toMonthName(deadlineDate[0])} ${deadlineDate[1]} ${deadlineDate[2]}",
-                    color = Color.Black,
+                    color = theme.fontColor,
                     modifier = modifier
                         .padding(start = 10.dp)
                         .fillMaxWidth(),
@@ -255,8 +261,8 @@ fun EditTaskInfoBody(
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color(0xFFD3D3D3),
                 unfocusedContainerColor = Color(0xFFD3D3D3),
-                unfocusedTextColor = Color.Black,
-                focusedTextColor = Color.Black,
+                unfocusedTextColor = theme.fontColor,
+                focusedTextColor = theme.fontColor,
             ),
             textStyle = TextStyle(
                 fontSize = 22.sp
