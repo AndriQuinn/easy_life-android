@@ -1,8 +1,6 @@
 package com.example.easy_life.ui.screen.home
 
 
-import android.R.attr.value
-import android.app.DatePickerDialog
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,15 +16,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,29 +28,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.easy_life.R
 import com.example.easy_life.data.local.Theme
 import com.example.easy_life.data.local.setFontSize
 import com.example.easy_life.data.local.setTheme
-import com.example.easy_life.functions.addTaskFile
-import com.example.easy_life.functions.toMonthName
-import com.example.easy_life.ui.screen.AddTaskScreen
 import kotlinx.coroutines.launch
-import java.util.Calendar
-import kotlin.math.round
 import kotlin.math.roundToInt
 
 @Composable
@@ -98,22 +81,17 @@ fun SetupScreenBody(
 
 
         AppName(theme = theme)
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(50.dp))
         Text(
             text = "Set Up Preference",
             color = theme.fontColor,
             fontSize = 35.sp,
             fontWeight = FontWeight.Bold
         )
-        Spacer(Modifier.height(50.dp))
-        Spacer(Modifier.height(50.dp))
         FontSizeOption(
             setFontSize = setFontSize,
-            theme = theme
-        )
-        Spacer(Modifier.height(50.dp))
+            theme = theme)
         ThemeOption(theme = theme)
-        Spacer(Modifier.height(50.dp))
         Button(
             onClick = { onFinish() }
         ) {
@@ -157,17 +135,15 @@ fun FontSizeOption(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        var size by remember { mutableIntStateOf(value) }
-        var value by remember { mutableFloatStateOf(14f) }
+        val labels = listOf("Small", "Medium", "Large")
+        var index by remember { mutableStateOf(0) }
+        var value by remember { mutableIntStateOf(14) }
 
         Text(
             text = "Font Size",
             color = theme.fontColor,
             fontSize = 22.sp,
-            fontWeight = FontWeight.SemiBold
         )
-
-        Spacer(Modifier.height(30.dp))
 
         Text(
             text = "Sample Text",
@@ -177,23 +153,19 @@ fun FontSizeOption(
 
 
         Slider(
-            value = value,
+            value = index.toFloat(),
             onValueChange = {
-                value = it
+                index = it.roundToInt()
+                setFontSize(it.roundToInt())
+                value = it.roundToInt()
             },
-            valueRange = 14f..22f,
+            valueRange = 14f..35f,
             steps = 1
         )
         Text(
-            text = when (value) {
-                14f -> "Small"
-                18f -> "Medium"
-                else -> "Large"
-            },
-            fontSize = 16.sp,
-            color = theme.fontColor
+            text = labels[index],
+            fontSize = 14.sp
         )
-
     }
 }
 
@@ -214,9 +186,7 @@ fun ThemeOption(
             text = "Theme",
             color = theme.fontColor,
             fontSize = 22.sp,
-            fontWeight = FontWeight.SemiBold
         )
-        Spacer(Modifier.height(30.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround,

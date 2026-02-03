@@ -202,8 +202,8 @@ fun EditTaskInfoBody(
             label = {Text(stringResource(R.string.title_txt))},
             singleLine = true,
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFFD3D3D3),
-                unfocusedContainerColor = Color(0xFFD3D3D3),
+                focusedContainerColor = theme.textFieldColor,
+                unfocusedContainerColor = theme.textFieldColor,
                 unfocusedTextColor = theme.fontColor,
                 focusedTextColor = theme.fontColor
             ),
@@ -259,8 +259,8 @@ fun EditTaskInfoBody(
             onValueChange = {setDescriptionFunction(it)}, // Return the value to parent
             label = {Text(stringResource(R.string.description_txt))},
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFFD3D3D3),
-                unfocusedContainerColor = Color(0xFFD3D3D3),
+                focusedContainerColor = theme.textFieldColor,
+                unfocusedContainerColor = theme.textFieldColor,
                 unfocusedTextColor = theme.fontColor,
                 focusedTextColor = theme.fontColor,
             ),
@@ -279,7 +279,6 @@ fun EditTaskInfoBody(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = modifier
-                .background(Color.White)
                 .padding(horizontal = 15.dp)
                 .fillMaxWidth()
         ) {

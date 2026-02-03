@@ -24,7 +24,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.easy_life.data.local.Theme
 import com.example.easy_life.data.local.getTheme
-import com.example.easy_life.data.local.getfontSize
 import com.example.easy_life.data.model.TaskNode
 import com.example.easy_life.ui.screen.AddTaskScreen
 import com.example.easy_life.ui.screen.AppStart
@@ -50,8 +49,7 @@ class MainActivity : ComponentActivity() {
 fun TaskListApp(modifier: Modifier = Modifier) {
     val navController: NavHostController = rememberNavController()
     val context = LocalContext.current
-    val themeMode by getTheme(context).collectAsState(initial = "system")
-    val preferFontSize by getfontSize(context).collectAsState(initial = 14)
+    val themeMode by getTheme(context).collectAsState(initial = false)
 
     val theme = when (themeMode) {
         "dark" -> Theme.DARKTHEME
@@ -135,7 +133,9 @@ fun TaskListApp(modifier: Modifier = Modifier) {
 @Composable
 fun HomeScreenPreview() {
     TaskListTheme {
-        HomeScreen(navController = rememberNavController())
+        HomeScreen(
+            theme = Theme.LIGHTTHEME,
+            navController = rememberNavController())
     }
 }
 

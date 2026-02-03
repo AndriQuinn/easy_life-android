@@ -209,8 +209,8 @@ fun AddTaskBody(
             label = {Text(stringResource(R.string.title_txt))},
             singleLine = true,
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFFD3D3D3),
-                unfocusedContainerColor = Color(0xFFD3D3D3),
+                focusedContainerColor = theme.textFieldColor,
+                unfocusedContainerColor = theme.textFieldColor,
                 unfocusedTextColor = theme.fontColor,
                 focusedTextColor = theme.fontColor
             ),
@@ -265,8 +265,8 @@ fun AddTaskBody(
             onValueChange = {setDescriptionFunction(it)}, // Return the value to parent
             label = {Text(stringResource(R.string.description_txt))},
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFFD3D3D3),
-                unfocusedContainerColor = Color(0xFFD3D3D3),
+                focusedContainerColor = theme.textFieldColor,
+                unfocusedContainerColor = theme.textFieldColor,
                 unfocusedTextColor = theme.fontColor,
                 focusedTextColor = theme.fontColor
             ),
@@ -282,7 +282,9 @@ fun AddTaskBody(
         Spacer(Modifier.height(50.dp))
         // Buttons - ADD and CANCEL
         Row (
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .background(Color.Transparent)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             var lockButton by remember { mutableStateOf(false) }

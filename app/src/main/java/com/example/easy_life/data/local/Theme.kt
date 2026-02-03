@@ -16,6 +16,7 @@ enum class Theme(
     val speakerIcon: Int,
     val fontColor: Color,
     val backgroundColor: Color,
+    val textFieldColor: Color
 ) {
 
 
@@ -26,7 +27,7 @@ enum class Theme(
         speakerIcon = R.drawable.w_speaker_logo,
         fontColor = Color.White,
         backgroundColor = Color.Black,
-
+        textFieldColor =  Color.Transparent
     ),
 
     LIGHTTHEME(
@@ -35,6 +36,7 @@ enum class Theme(
         ongoingIcon = R.drawable.b_ongoing_icon,
         speakerIcon = R.drawable.b_speaker_logo,
         fontColor = Color.Black,
-        backgroundColor = Color.White
+        backgroundColor = Color.White,
+        textFieldColor = Color(0xFFD3D3D3)
     )
 }

@@ -264,6 +264,7 @@ fun BottomButtons(
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
+            .background(Color.Transparent)
             .padding(horizontal = 10.dp)
             .fillMaxWidth()
     ) {
@@ -280,7 +281,7 @@ fun BottomButtons(
         ) {
             Text(
                 text = stringResource(R.string.delete_button_txt),
-                color = theme.fontColor,
+                color = Color.White,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
             )

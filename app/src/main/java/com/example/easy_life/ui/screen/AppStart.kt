@@ -1,10 +1,8 @@
 package com.example.easy_life.ui.screen
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.example.easy_life.data.local.Theme
@@ -39,7 +37,9 @@ fun AppStart(
             )
         }
         false -> {
-            HomeScreen(navController = navController)
+            HomeScreen(
+                theme = theme,
+                navController = navController)
         }
         null -> {}
     }

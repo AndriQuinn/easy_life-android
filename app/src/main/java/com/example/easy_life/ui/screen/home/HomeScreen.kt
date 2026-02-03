@@ -47,7 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.easy_life.R
-
+import com.example.easy_life.data.local.Theme
 import com.example.easy_life.data.model.TaskNode
 import com.example.easy_life.functions.getTotal
 import com.example.easy_life.functions.toMonthName
@@ -60,12 +60,11 @@ import kotlinx.serialization.json.Json
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import com.example.easy_life.data.local.Theme
 
 
 @Composable
 fun HomeScreen (
-    theme: Theme = Theme.LIGHTTHEME,
+    theme: Theme,
     navController: NavController,
     homeViewModel: HomeViewModel = HomeViewModel()
 ) {
@@ -430,6 +429,8 @@ fun rememberTextToSpeech(): TextToSpeech? {
 @Composable
 fun HomeScreenPreview() {
     TaskListTheme {
-        HomeScreen(navController = rememberNavController())
+        HomeScreen(
+            theme =  Theme.LIGHTTHEME,
+            navController = rememberNavController())
     }
 }

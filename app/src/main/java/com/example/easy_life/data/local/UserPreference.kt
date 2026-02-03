@@ -1,19 +1,13 @@
 package com.example.easy_life.data.local
 
 import android.content.Context
-import androidx.compose.ui.graphics.Color
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.easy_life.R
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-
-
-
-
 
 val THEME_MODE = stringPreferencesKey("theme_mode")
 val userFontSize = intPreferencesKey("font_size")
