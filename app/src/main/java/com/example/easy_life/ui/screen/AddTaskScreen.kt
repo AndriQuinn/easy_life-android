@@ -42,12 +42,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.easy_life.R
+import com.example.easy_life.data.local.Theme
 import com.example.easy_life.functions.addTaskFile
 import com.example.easy_life.functions.toMonthName
 import java.util.Calendar
 
 @Composable
 fun AddTaskScreen(
+    preferFontSize: Int = 14,
+    theme: Theme = Theme.LIGHTTHEME,
     navController: NavController
 ) {
     var checkFields by remember {mutableStateOf(false)}
@@ -61,12 +64,15 @@ fun AddTaskScreen(
     Scaffold (
         topBar = {
             AddTaskNavBar(
+                theme = theme,
                 backFunction = { navController.popBackStack() },// Back button
             )
         },
         modifier = Modifier.statusBarsPadding()
     ) { innerPadding ->
         AddTaskBody(
+            preferFontSize = preferFontSize,
+            theme = theme,
             modifier = Modifier.padding(innerPadding),
             title = taskTitle, // Pass the state
             description = taskDescription, // Pass the state
@@ -96,6 +102,7 @@ fun AddTaskScreen(
 
 @Composable
 fun AddTaskNavBar(
+    theme: Theme,
     backFunction: () -> Unit, // Back function callback
     modifier: Modifier = Modifier
 ) {
@@ -104,7 +111,7 @@ fun AddTaskNavBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .background(Color.White)
+            .background(theme.backgroundColor)
             .padding(horizontal = 15.dp)
             .fillMaxWidth()
     ) {
@@ -128,7 +135,7 @@ fun AddTaskNavBar(
         ) {
             // Back icon
             Image (
-                painter = painterResource(R.drawable.b_back_icon),
+                painter = painterResource(theme.backIcon),
                 contentDescription = stringResource(R.string.back_icon_desc_txt),
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.size(30.dp)
@@ -139,6 +146,8 @@ fun AddTaskNavBar(
 
 @Composable
 fun AddTaskBody(
+    preferFontSize: Int = 14,
+    theme: Theme,
     title: String,
     description: String,
     checkField: Boolean,
@@ -178,14 +187,16 @@ fun AddTaskBody(
     // Container for task info field e.g. title, vertically placed
     Column (
         modifier = modifier
-            .background(Color.White)
+            .background(theme.backgroundColor)
             .padding(30.dp)
             .fillMaxSize()
     ) {
         Text(
             text = stringResource(R.string.new_task_header_txt),
-            color = Color.Black,
-            fontSize = 35.sp,
+            color = theme.fontColor,
+            fontSize = if (preferFontSize <= 22) {
+                (preferFontSize * 1.6).sp
+            } else { (preferFontSize * 1.6 * 1.6).sp },
             modifier = Modifier
                 .padding(vertical = 30.dp)
                 .fillMaxWidth()
@@ -198,10 +209,10 @@ fun AddTaskBody(
             label = {Text(stringResource(R.string.title_txt))},
             singleLine = true,
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFFD3D3D3),
-                unfocusedContainerColor = Color(0xFFD3D3D3),
-                unfocusedTextColor = Color.Black,
-                focusedTextColor = Color.Black
+                focusedContainerColor = theme.textFieldColor,
+                unfocusedContainerColor = theme.textFieldColor,
+                unfocusedTextColor = theme.fontColor,
+                focusedTextColor = theme.fontColor
             ),
             textStyle = TextStyle(
                 fontSize = 22.sp
@@ -227,18 +238,18 @@ fun AddTaskBody(
                     text = stringResource(R.string.pick_a_deadline_txt),
                     color = if (checkField) {
                         Color(0xFFFFAEB7)
-                    } else {Color.Black},
+                    } else {theme.fontColor},
                     modifier = modifier
                         .padding(start = 10.dp)
                         .fillMaxWidth(),
                     textAlign = TextAlign.Start,
-                    fontSize = 22.sp
+                    fontSize = 14.sp
                 )
             } else {
                 val deadlineDate = selectedDate.split("/")
                 Text(
                     text = "Deadline: ${toMonthName(deadlineDate[0])} ${deadlineDate[1]} ${deadlineDate[2]}",
-                    color = Color.Black,
+                    color = theme.fontColor,
                     modifier = modifier
                         .padding(start = 10.dp)
                         .fillMaxWidth(),
@@ -254,10 +265,10 @@ fun AddTaskBody(
             onValueChange = {setDescriptionFunction(it)}, // Return the value to parent
             label = {Text(stringResource(R.string.description_txt))},
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFFD3D3D3),
-                unfocusedContainerColor = Color(0xFFD3D3D3),
-                unfocusedTextColor = Color.Black,
-                focusedTextColor = Color.Black
+                focusedContainerColor = theme.textFieldColor,
+                unfocusedContainerColor = theme.textFieldColor,
+                unfocusedTextColor = theme.fontColor,
+                focusedTextColor = theme.fontColor
             ),
             textStyle = TextStyle(
                 fontSize = 22.sp
@@ -271,7 +282,9 @@ fun AddTaskBody(
         Spacer(Modifier.height(50.dp))
         // Buttons - ADD and CANCEL
         Row (
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .background(Color.Transparent)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             var lockButton by remember { mutableStateOf(false) }
@@ -327,5 +340,7 @@ fun AddTaskBody(
 )
 @Composable
 fun AddTaskScreenPreview() {
-    AddTaskScreen(navController = rememberNavController())
+    AddTaskScreen(
+
+        navController = rememberNavController())
 }

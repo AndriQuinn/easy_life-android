@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.easy_life.R
+import com.example.easy_life.data.local.Theme
 import com.example.easy_life.data.model.TaskNode
 import com.example.easy_life.functions.deleteTask
 import com.example.easy_life.functions.markTaskDone
@@ -54,6 +55,7 @@ import kotlinx.serialization.json.Json
 
 @Composable
 fun TaskInfoScreen(
+    theme: Theme = Theme.LIGHTTHEME,
     taskNode: TaskNode,
     navController: NavController,
 ) {
@@ -63,11 +65,13 @@ fun TaskInfoScreen(
         modifier = Modifier.statusBarsPadding(),
         topBar = {
             TaskInfoNavBar(
+                theme =  theme,
                 backFunction = { navController.popBackStack() },
             )
         }
     ) { innerPadding ->
         TaskInfoBody(
+            theme = theme,
             modifier = Modifier.padding(innerPadding),
             taskNode = taskNode,
             context = context,
@@ -78,6 +82,7 @@ fun TaskInfoScreen(
 
 @Composable
 fun TaskInfoNavBar(
+    theme: Theme,
     backFunction: () -> Unit, // Back callback function
     modifier: Modifier = Modifier
 ) {
@@ -85,7 +90,7 @@ fun TaskInfoNavBar(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
         modifier = modifier
-            .background(Color.White)
+            .background(theme.backgroundColor)
             .padding(horizontal = 15.dp)
             .fillMaxWidth()
     ) {
@@ -110,7 +115,7 @@ fun TaskInfoNavBar(
         ) {
             // Back icon
             Image (
-                painter = painterResource(R.drawable.b_back_icon),
+                painter = painterResource(theme.backIcon),
                 contentDescription = stringResource(R.string.back_icon_desc_txt),
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.size(30.dp)
@@ -121,6 +126,7 @@ fun TaskInfoNavBar(
 
 @Composable
 fun TaskInfoBody(
+    theme: Theme,
     taskNode: TaskNode,
     context: Context,
     navController: NavController,
@@ -131,17 +137,22 @@ fun TaskInfoBody(
     // Container for task info, vertically placed
     Column (
         modifier = modifier
-            .background(Color.White)
+            .background(theme.backgroundColor)
             .padding(
                 vertical = 60.dp,
                 horizontal = 15.dp
             )
             .fillMaxSize()
     ) {
-        Header(taskNode = taskNode)
+        Header(
+            theme = theme,
+            taskNode = taskNode)
         Spacer(Modifier.height(30.dp))
-        DescriptionBox(taskNode = taskNode)
+        DescriptionBox(
+            theme = theme,
+            taskNode = taskNode)
         BottomButtons(
+            theme = theme,
             taskNode = taskNode,
             markDone = {
                 markTaskDone(
@@ -167,6 +178,7 @@ fun TaskInfoBody(
 // Contains title, deadline, and status
 @Composable
 fun Header(
+    theme: Theme,
     taskNode: TaskNode,
 ) {
     Row (
@@ -180,7 +192,7 @@ fun Header(
         ) {
             Text(
                 text = taskNode.title,
-                color = Color.Black,
+                color = theme.fontColor,
                 fontSize = 35.sp,
                 maxLines = 2,
                 overflow = TextOverflow.Clip,
@@ -192,7 +204,7 @@ fun Header(
                     taskNode.deadline.split("/")[1]} ${
                     taskNode.deadline.split("/")[2]}",
                 fontSize = 22.sp,
-               color = Color.Black
+               color = theme.fontColor
             )
         }
         // Current status
@@ -203,6 +215,7 @@ fun Header(
 
         ) {
             StatusIndicator(
+                theme = theme,
                 statusType = StatusType.valueOf(taskNode.status)
             )
         }
@@ -211,6 +224,7 @@ fun Header(
 
 @Composable
 fun DescriptionBox(
+    theme: Theme,
     taskNode: TaskNode,
 ) {
     Column(
@@ -218,13 +232,13 @@ fun DescriptionBox(
     ) {
         Text(
             text = stringResource(R.string.description_header_txt),
-            color = Color.Black,
+            color = theme.fontColor,
             fontSize = 22.sp
         )
         Spacer(Modifier.height(20.dp))
         Text(
             text = taskNode.description,
-            color = Color.Black,
+            color = theme.fontColor,
             fontSize = 14.sp,
             modifier = Modifier
                 .heightIn(min = 150.dp, max = 450.dp) // set min and max height
@@ -237,6 +251,7 @@ fun DescriptionBox(
 // Contains delete, done, edit
 @Composable
 fun BottomButtons(
+    theme: Theme,
     toEditTaskScreen: (String) -> Unit,
     taskNode: TaskNode,
     markDone: () -> Unit,
@@ -249,6 +264,7 @@ fun BottomButtons(
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
+            .background(Color.Transparent)
             .padding(horizontal = 10.dp)
             .fillMaxWidth()
     ) {

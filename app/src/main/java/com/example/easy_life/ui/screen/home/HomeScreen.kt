@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.easy_life.R
+import com.example.easy_life.data.local.Theme
 import com.example.easy_life.data.model.TaskNode
 import com.example.easy_life.functions.getTotal
 import com.example.easy_life.functions.toMonthName
@@ -63,6 +64,7 @@ import java.util.Locale
 
 @Composable
 fun HomeScreen (
+    theme: Theme,
     navController: NavController,
     homeViewModel: HomeViewModel = HomeViewModel()
 ) {
@@ -79,14 +81,16 @@ fun HomeScreen (
         modifier = Modifier.statusBarsPadding(),
         topBar = {
             NavBar(
+                theme = theme,
                 toAddScreen = { navController.navigate("addTaskScreen") },
                 modifier = Modifier
-                    .background(Color.White)
+                    .background(theme.backgroundColor)
                     .fillMaxWidth()
             )
         }
     ) { innerPadding ->
         HomeScreenBody(
+            theme = theme,
             currentDate = currentDate,
             listOfTask = listOfTask,
             navController = navController,
@@ -97,6 +101,7 @@ fun HomeScreen (
 
 @Composable
 fun HomeScreenBody (
+    theme: Theme,
     currentDate: String,
     listOfTask: List<TaskNode>,
     navController: NavController,
@@ -104,11 +109,12 @@ fun HomeScreenBody (
 ) {
     Column (
         modifier = modifier
-            .background(Color.White)
+            .background(theme.backgroundColor)
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
         TopBanner(
+            theme = theme,
             date = currentDate,
             workDone = getTotal(listOfTask,"DONE"),
             workNotDone = getTotal(listOfTask,"MISSED"),
@@ -116,6 +122,7 @@ fun HomeScreenBody (
             modifier = Modifier.weight(1.2f)
         )
         TaskLists(
+            theme = theme,
             toTaskInfoScreen = {
                     taskData ->
                 navController.navigate("taskInfoScreen/${taskData}")
@@ -123,7 +130,7 @@ fun HomeScreenBody (
             },
             listOfTask = listOfTask,
             modifier = Modifier
-                .background(Color.White)
+                .background(theme.backgroundColor)
                 .weight(8f)
         )
     }
@@ -131,6 +138,7 @@ fun HomeScreenBody (
 
 @Composable
 fun NavBar(
+    theme: Theme,
     toAddScreen: () -> Unit, // Function to go AddTaskScreen
     modifier: Modifier = Modifier
 ) {
@@ -151,7 +159,7 @@ fun NavBar(
             )
             Text (
                 text = stringResource(R.string.tasklist_header_txt),
-                color = Color.Black
+                color = theme.fontColor
             )
         }
         var clickOnce by remember {mutableStateOf(true)}
@@ -175,7 +183,7 @@ fun NavBar(
         ) {
             // Add icon
             Image(
-                painter = painterResource(R.drawable.b_add_icon),
+                painter = painterResource(theme.addIcon),
                 contentDescription = stringResource(R.string.add_icon_desc_txt),
                 modifier = Modifier.size(40.dp)
             )
@@ -185,6 +193,7 @@ fun NavBar(
 
 @Composable
 fun TopBanner(
+    theme: Theme,
     date: String,
     workDone: Int,
     workNotDone: Int,
@@ -198,10 +207,12 @@ fun TopBanner(
             .fillMaxSize()
     ) {
         DateBanner(
+            theme = theme,
             date = date,
             modifier = Modifier.weight(1f)
         )
         StatusIndicatorBar(
+            theme = theme,
             workDone = workDone,
             workNotDone = workNotDone,
             workOngoing = workOngoing,
@@ -212,6 +223,7 @@ fun TopBanner(
 
 @Composable
 fun TaskLists(
+    theme: Theme,
     toTaskInfoScreen: (String) -> Unit,
     listOfTask: List<TaskNode>,
     modifier: Modifier = Modifier
@@ -232,12 +244,12 @@ fun TaskLists(
         ) {
             Text(
                 text = stringResource(R.string.tasks_txt), // Header title
-                color = Color.Black,
+                color = theme.fontColor,
                 fontSize = 35.sp,
             )
             Text(
                 text = "${listOfTask.size}", // Shows number of tasks
-                color = Color.Black,
+                color = theme.fontColor,
                 fontSize = 22.sp
             )
         }
@@ -256,7 +268,7 @@ fun TaskLists(
             if (listOfTask.isEmpty()) { // If no tasks found
                 Text(
                     text = stringResource(R.string.no_ongoing_tasks_txt),
-                    color = Color.Black,
+                    color = theme.fontColor,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth(),
                     fontSize = 14.sp
@@ -264,6 +276,7 @@ fun TaskLists(
             } else {
                 listOfTask.forEach { task ->
                     TaskTab(
+                        theme = theme,
                         delay = delay,
                         taskNode = task, // Compose tasks
                         toTaskInfoScreen = { toTaskInfoScreen(it) }
@@ -277,6 +290,7 @@ fun TaskLists(
 
 @Composable
 fun TaskTab(
+    theme: Theme,
     delay: Long,
     toTaskInfoScreen: (String) -> Unit,
     taskNode: TaskNode,
@@ -323,7 +337,7 @@ fun TaskTab(
             ) {
                 Text(
                     text = taskNode.title,
-                    color = Color.Black,
+                    color = theme.fontColor,
                     fontSize = 22.sp
                 )
                 Text(
@@ -332,7 +346,7 @@ fun TaskTab(
                     } ${
                         taskNode.deadline.split("/")[2]
                     }",
-                    color = Color.Black,
+                    color = theme.fontColor,
                     fontSize = 14.sp
                 )
             }
@@ -367,7 +381,7 @@ fun TaskTab(
                 ) {
                     // Add icon
                     Image(
-                        painter = painterResource(R.drawable.b_speaker_logo),
+                        painter = painterResource(theme.speakerIcon),
                         contentDescription = stringResource(R.string.add_icon_desc_txt),
                         modifier = Modifier.size(40.dp)
                     )
@@ -377,7 +391,7 @@ fun TaskTab(
     }
     HorizontalDivider(
         thickness = 2.dp,
-        color = Color.Black
+        color = theme.fontColor
     )
 }
 
@@ -407,9 +421,6 @@ fun rememberTextToSpeech(): TextToSpeech? {
     return tts
 }
 
-
-
-
 @Preview(
     showBackground = true,
     showSystemUi = true,
@@ -418,6 +429,8 @@ fun rememberTextToSpeech(): TextToSpeech? {
 @Composable
 fun HomeScreenPreview() {
     TaskListTheme {
-        HomeScreen(navController = rememberNavController())
+        HomeScreen(
+            theme =  Theme.LIGHTTHEME,
+            navController = rememberNavController())
     }
 }

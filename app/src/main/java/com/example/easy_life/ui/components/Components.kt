@@ -13,16 +13,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.easy_life.data.local.Theme
 import com.example.easy_life.functions.toMonthName
 import com.example.easy_life.ui.model.StatusType
 
 @Composable
 fun DateBanner(
+    theme: Theme,
     modifier: Modifier = Modifier,
     date: String
 ) {
@@ -49,7 +50,7 @@ fun DateBanner(
         ) {
             Text(
                 text = extractDate[0], // Day of the week e.g Mon
-                color = Color.Black,
+                color = theme.fontColor,
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Bold,
 
@@ -66,13 +67,13 @@ fun DateBanner(
             Row {
                 Text(
                     text = "${toMonthName(extractDate[1])} ${extractDate[2]}",
-                    color = Color.Black,
+                    color = theme.fontColor
                 )
             }
             // Year
             Text(
                 text = extractDate[3],
-                color = Color.Black,
+                color = theme.fontColor
             )
         }
     }
@@ -80,6 +81,7 @@ fun DateBanner(
 
 @Composable
 fun StatusIndicatorBar(
+    theme: Theme,
     workDone: Int,
     workNotDone: Int,
     workOngoing: Int,
@@ -93,18 +95,21 @@ fun StatusIndicatorBar(
     ) {
         // Tasks Done indicator
         StatusIndicator(
+            theme = theme,
             status = workDone.toString(),
             statusType = StatusType.DONE
         )
 
         // Ongoing tasks indicator
         StatusIndicator(
+            theme = theme,
             status = workOngoing.toString(),
             statusType = StatusType.ONGOING
         )
 
         // Missed Tasks indicator
         StatusIndicator(
+            theme = theme,
             status = workNotDone.toString(),
             statusType = StatusType.MISSED
         )
@@ -113,6 +118,7 @@ fun StatusIndicatorBar(
 
 @Composable
 fun StatusIndicator(
+    theme: Theme,
     statusType: StatusType,
     status: String = ""
 ) {
@@ -123,7 +129,7 @@ fun StatusIndicator(
         // Status value, empty by default - ""
         Text(
             text = status,
-            color = Color.Black
+            color = theme.fontColor
         )
         Spacer(Modifier.width(10.dp))
         // Status icon
@@ -136,7 +142,7 @@ fun StatusIndicator(
         // Status name e.g. Done
         Text(
             text = statusType.statusName,
-            color = Color.Black
+            color = theme.fontColor
         )
     }
 }

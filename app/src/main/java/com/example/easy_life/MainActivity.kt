@@ -10,8 +10,11 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -19,8 +22,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.easy_life.data.local.Theme
+import com.example.easy_life.data.local.getTheme
 import com.example.easy_life.data.model.TaskNode
 import com.example.easy_life.ui.screen.AddTaskScreen
+import com.example.easy_life.ui.screen.AppStart
 import com.example.easy_life.ui.screen.EditTaskScreen
 import com.example.easy_life.ui.screen.home.HomeScreen
 import com.example.easy_life.ui.screen.TaskInfoScreen
@@ -42,11 +48,19 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TaskListApp(modifier: Modifier = Modifier) {
     val navController: NavHostController = rememberNavController()
+    val context = LocalContext.current
+    val themeMode by getTheme(context).collectAsState(initial = false)
+
+    val theme = when (themeMode) {
+        "dark" -> Theme.DARKTHEME
+        "light" -> Theme.LIGHTTHEME
+        else -> Theme.LIGHTTHEME
+    }
 
     // Navigation address and options
     NavHost(
         navController = navController,
-        startDestination = "home",
+        startDestination = "app_start",
         enterTransition = { slideInHorizontally(
             initialOffsetX = { -it },
             animationSpec = tween(250)
@@ -69,8 +83,17 @@ fun TaskListApp(modifier: Modifier = Modifier) {
         },
         modifier = Modifier.background(Color(0xFF1E1E1E))
     ) {
-        composable("home") { HomeScreen(navController = navController) }
-        composable("addTaskScreen") { AddTaskScreen(navController = navController) }
+        composable("app_start") { AppStart(
+            theme = theme,
+            navController = navController) }
+        composable("home") { HomeScreen(
+            theme = theme,
+            navController = navController
+        ) }
+        composable("addTaskScreen") { AddTaskScreen(
+            theme = theme,
+            navController = navController)
+        }
         composable(
             route = "taskInfoScreen/{taskData}",
             arguments = listOf(navArgument("taskData") { type = NavType.StringType })
@@ -80,6 +103,7 @@ fun TaskListApp(modifier: Modifier = Modifier) {
             val taskData = Json.decodeFromString<TaskNode>(taskUriDecoded)
 
             TaskInfoScreen(
+                theme = theme,
                 taskNode = taskData,
                 navController = navController
             )
@@ -93,6 +117,7 @@ fun TaskListApp(modifier: Modifier = Modifier) {
             val taskData = Json.decodeFromString<TaskNode>(taskUriDecoded)
 
             EditTaskScreen(
+                theme = theme,
                 taskNode = taskData,
                 navController = navController
             )
@@ -108,7 +133,9 @@ fun TaskListApp(modifier: Modifier = Modifier) {
 @Composable
 fun HomeScreenPreview() {
     TaskListTheme {
-        HomeScreen(navController = rememberNavController())
+        HomeScreen(
+            theme = Theme.LIGHTTHEME,
+            navController = rememberNavController())
     }
 }
 
