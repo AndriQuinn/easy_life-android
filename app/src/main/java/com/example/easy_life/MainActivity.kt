@@ -89,17 +89,14 @@ fun TaskListApp(modifier: Modifier = Modifier) {
             theme = theme,
             navController = navController) }
         composable("home") { HomeScreen(
-            preferFontSize = preferFontSize,
             theme = theme,
             navController = navController
         ) }
         composable("addTaskScreen") { AddTaskScreen(
-            preferFontSize = preferFontSize,
             theme = theme,
             navController = navController)
         }
         composable(
-            preferFontSize = preferFontSize,
             route = "taskInfoScreen/{taskData}",
             arguments = listOf(navArgument("taskData") { type = NavType.StringType })
         ) { backStackEntry ->
@@ -108,7 +105,6 @@ fun TaskListApp(modifier: Modifier = Modifier) {
             val taskData = Json.decodeFromString<TaskNode>(taskUriDecoded)
 
             TaskInfoScreen(
-                preferFontSize = preferFontSize,
                 theme = theme,
                 taskNode = taskData,
                 navController = navController
@@ -123,7 +119,6 @@ fun TaskListApp(modifier: Modifier = Modifier) {
             val taskData = Json.decodeFromString<TaskNode>(taskUriDecoded)
 
             EditTaskScreen(
-                preferFontSize = preferFontSize,
                 theme = theme,
                 taskNode = taskData,
                 navController = navController

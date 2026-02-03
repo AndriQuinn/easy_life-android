@@ -56,6 +56,7 @@ import com.example.easy_life.functions.toMonthName
 import com.example.easy_life.ui.screen.AddTaskScreen
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import kotlin.math.round
 import kotlin.math.roundToInt
 
 @Composable
@@ -97,17 +98,22 @@ fun SetupScreenBody(
 
 
         AppName(theme = theme)
-        Spacer(Modifier.height(50.dp))
+        Spacer(Modifier.height(20.dp))
         Text(
             text = "Set Up Preference",
             color = theme.fontColor,
             fontSize = 35.sp,
             fontWeight = FontWeight.Bold
         )
+        Spacer(Modifier.height(50.dp))
+        Spacer(Modifier.height(50.dp))
         FontSizeOption(
             setFontSize = setFontSize,
-            theme = theme)
+            theme = theme
+        )
+        Spacer(Modifier.height(50.dp))
         ThemeOption(theme = theme)
+        Spacer(Modifier.height(50.dp))
         Button(
             onClick = { onFinish() }
         ) {
@@ -151,15 +157,17 @@ fun FontSizeOption(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        val labels = listOf("Small", "Medium", "Large")
-        var index by remember { mutableStateOf(0) }
-        var value by remember { mutableIntStateOf(14) }
+        var size by remember { mutableIntStateOf(value) }
+        var value by remember { mutableFloatStateOf(14f) }
 
         Text(
             text = "Font Size",
             color = theme.fontColor,
             fontSize = 22.sp,
+            fontWeight = FontWeight.SemiBold
         )
+
+        Spacer(Modifier.height(30.dp))
 
         Text(
             text = "Sample Text",
@@ -169,19 +177,23 @@ fun FontSizeOption(
 
 
         Slider(
-            value = index.toFloat(),
+            value = value,
             onValueChange = {
-                index = it.roundToInt()
-                setFontSize(it.roundToInt())
-                value = it.roundToInt()
+                value = it
             },
             valueRange = 14f..22f,
             steps = 1
         )
         Text(
-            text = labels[index],
-            fontSize = 14.sp
+            text = when (value) {
+                14f -> "Small"
+                18f -> "Medium"
+                else -> "Large"
+            },
+            fontSize = 16.sp,
+            color = theme.fontColor
         )
+
     }
 }
 
@@ -202,7 +214,9 @@ fun ThemeOption(
             text = "Theme",
             color = theme.fontColor,
             fontSize = 22.sp,
+            fontWeight = FontWeight.SemiBold
         )
+        Spacer(Modifier.height(30.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround,
