@@ -1,8 +1,6 @@
 package com.example.easy_life.ui.screen.home
 
 
-import android.R.attr.value
-import android.app.DatePickerDialog
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,15 +16,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,28 +28,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.easy_life.R
 import com.example.easy_life.data.local.Theme
 import com.example.easy_life.data.local.setFontSize
 import com.example.easy_life.data.local.setTheme
-import com.example.easy_life.functions.addTaskFile
-import com.example.easy_life.functions.toMonthName
-import com.example.easy_life.ui.screen.AddTaskScreen
 import kotlinx.coroutines.launch
-import java.util.Calendar
 import kotlin.math.roundToInt
 
 @Composable
@@ -175,7 +159,7 @@ fun FontSizeOption(
                 setFontSize(it.roundToInt())
                 value = it.roundToInt()
             },
-            valueRange = 14f..22f,
+            valueRange = 14f..35f,
             steps = 1
         )
         Text(
